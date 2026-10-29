@@ -109,6 +109,7 @@ I18N.add('ko', {
     musicLabel: '음악',
     musicTurnOff: '음악 끄기',
     musicTurnOn: '음악 켜기',
+    githubLink: 'GitHub 저장소 열기',
     ariaProgress: '진행 상황',
     ariaStage: '정은이',
     ariaStats: '상태 지표',

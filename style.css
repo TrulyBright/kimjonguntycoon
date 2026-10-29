@@ -55,6 +55,17 @@ button { font: inherit; color: inherit; }
   background: repeating-conic-gradient(from 0deg at 50% 18%, var(--bg) 0deg 7.5deg, var(--bg-ray) 7.5deg 15deg);
 }
 
+/* 오른쪽 위 구석의 GitHub 링크. 화면에 고정하지 않고 페이지와 함께 스크롤되어 게임을 가리지 않는다 */
+.gh-link {
+  position: absolute; z-index: 5;
+  top: max(8px, env(safe-area-inset-top, 0px)); right: max(10px, env(safe-area-inset-right, 0px));
+  width: 34px; height: 34px; display: grid; place-items: center;
+  background: var(--paper); color: var(--ink); border: 2px solid var(--line); border-radius: 50%;
+  box-shadow: var(--shadow-sm); transition: transform .08s ease, box-shadow .08s ease, background .15s ease;
+}
+.gh-link:hover { background: var(--gold); color: var(--on-gold); transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--line); }
+.gh-link:active { transform: translate(2px, 2px); box-shadow: none; }
+
 .app { max-width: 560px; margin: 0 auto; display: grid; gap: 14px; }
 .play { display: contents; } /* 데스크톱에선 없는 것처럼, 휴대폰에선 한 화면 묶음 */
 

@@ -3,7 +3,7 @@ I18N.add('ja', {
   ui: {
     title: '金正恩育成計画',
     eyebrow: '最高尊厳育成シミュレーション',
-    album: 'エンディング図鑑',
+    album: 'エンド図鑑',
     restart: '最初から',
     langLabel: '言語',
     musicLabel: '音楽',

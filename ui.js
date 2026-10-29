@@ -47,13 +47,16 @@
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = T.ui(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-aria]').forEach(el => el.setAttribute('aria-label', T.ui(el.dataset.i18nAria)));
     $('lang-select').value = T.lang;
-    renderAnthemButton();
+    renderMusicButton();
   }
 
-  function renderAnthemButton() {
-    const a = $('btn-anthem');
-    a.textContent = T.ui(ANTHEM.on ? 'anthemStop' : 'anthem');
-    a.setAttribute('aria-pressed', String(ANTHEM.on));
+  // 음원 파일이 있을 때만 보인다. 재생 중이면 🔊, 꺼져 있으면 🔇
+  function renderMusicButton() {
+    const b = $('btn-music');
+    b.hidden = !ANTHEM.available;
+    b.textContent = (ANTHEM.on ? '🔊 ' : '🔇 ') + T.ui('musicLabel');
+    b.title = T.ui(ANTHEM.on ? 'musicTurnOff' : 'musicTurnOn');
+    b.setAttribute('aria-pressed', String(ANTHEM.on));
   }
 
   function renderAll(opts) {
@@ -264,7 +267,7 @@
     renderAll();
     say(T.ui(id === 'sulk' ? 'endSaySulk' : id === 'sick' ? 'endSaySick' : 'endSayOther'));
     const en = ENDINGS[id];
-    if (en.kind !== 'bad') ANTHEM.play(T.ui('anthemDock'));
+    if (en.kind !== 'bad') ANTHEM.replay();
     const lived = Math.min(s.day - 1, GAME_DAYS);
     const choice = await openModal(() => {
       const seen = E.seenEndings(), tx = T.ending(id);
@@ -362,7 +365,7 @@
         : [{ label: T.ui('start'), primary: true }],
     }));
     if (saved && i === 1) { E.clearSave(); newGame(); }
-    ANTHEM.play(T.ui('anthemDock')); // 시작 버튼을 누른 순간 국가가 울린다
+    ANTHEM.autoStart(); // 시작 버튼을 누른 순간 국가가 울린다
   }
 
   function setLang(id) {
@@ -406,12 +409,8 @@
     });
     $('btn-album').addEventListener('click', () => { if (!modal) showAlbum(); });
     $('btn-restart').addEventListener('click', restart);
-    $('btn-anthem').addEventListener('click', () => {
-      if (ANTHEM.on) ANTHEM.stop();
-      else ANTHEM.play(T.ui('anthemDock'));
-    });
-    $('btn-anthem-close').addEventListener('click', () => ANTHEM.stop());
-    ANTHEM.onChange(renderAnthemButton);
+    $('btn-music').addEventListener('click', () => ANTHEM.toggle());
+    ANTHEM.onChange(renderMusicButton);
     $('modal-body').addEventListener('click', e => {
       const b = e.target.closest('[data-lang]');
       if (b) setLang(b.dataset.lang);

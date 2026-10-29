@@ -24,6 +24,7 @@
         <span class="visually-hidden" data-i18n="langLabel">언어</span>
         <select id="lang-select"></select>
       </label>
+      <button class="tool-btn" id="btn-music" type="button" aria-pressed="false" hidden>🔇 음악</button>
       <button class="tool-btn" id="btn-album" type="button" data-i18n="album">엔딩 도감</button>
       <button class="tool-btn" id="btn-restart" type="button" data-i18n="restart">처음부터</button>
     </div>
@@ -47,7 +48,6 @@
     <div class="kim" id="kim"></div>
     <p class="bubble" id="bubble">응애!</p>
     <div class="fx-layer" id="fx-layer" aria-hidden="true"></div>
-    <button class="anthem-btn" id="btn-anthem" type="button" aria-pressed="false">♪ 국가</button>
     <div class="ticker">
       <span class="ticker-tag" data-i18n="breaking">속보</span>
       <div class="ticker-viewport"><p class="ticker-text" id="ticker-text">인민 여러분, 백두산 정기를 받은 아기가 태어났습니다!</p></div>
@@ -74,14 +74,6 @@
 
   <footer class="foot" data-i18n="footer">이 게임은 정치 풍자 패러디입니다.</footer>
 </main>
-
-<aside class="anthem-dock" id="anthem-dock" hidden>
-  <div class="anthem-bar">
-    <span data-i18n="anthemDock">♪ 북한 국가 「애국가」</span>
-    <button class="anthem-close" id="btn-anthem-close" type="button" data-i18n-aria="anthemStop" aria-label="국가 끄기">✕</button>
-  </div>
-  <div class="anthem-frame"></div>
-</aside>
 
 <div class="modal-backdrop" id="modal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">

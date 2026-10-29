@@ -16,19 +16,23 @@
 <main class="app" id="app">
   <header class="masthead">
     <div class="masthead-text">
-      <p class="eyebrow">최고존엄 육성 시뮬레이션</p>
-      <h1>김정은 키우기</h1>
+      <p class="eyebrow" data-i18n="eyebrow">최고존엄 육성 시뮬레이션</p>
+      <h1 data-i18n="title">김정은 키우기</h1>
     </div>
     <div class="masthead-tools">
-      <button class="tool-btn" id="btn-album" type="button">엔딩 도감</button>
-      <button class="tool-btn" id="btn-restart" type="button">처음부터</button>
+      <label class="lang-pick">
+        <span class="visually-hidden" data-i18n="langLabel">언어</span>
+        <select id="lang-select"></select>
+      </label>
+      <button class="tool-btn" id="btn-album" type="button" data-i18n="album">엔딩 도감</button>
+      <button class="tool-btn" id="btn-restart" type="button" data-i18n="restart">처음부터</button>
     </div>
   </header>
 
-  <section class="calendar" aria-label="진행 상황">
+  <section class="calendar" data-i18n-aria="ariaProgress" aria-label="진행 상황">
     <div class="calendar-top">
       <span class="stage-chip" id="stage-chip">아기 정은</span>
-      <span class="day-label"><b id="day-num">1</b>일째 <small>/ 70일</small></span>
+      <span class="day-label" id="day-label"><b>1</b>일째 <small>/ 70일</small></span>
     </div>
     <div class="day-track" id="day-track"><div class="day-fill" id="day-fill"></div></div>
     <div class="badges">
@@ -38,37 +42,46 @@
     </div>
   </section>
 
-  <section class="stage" id="stage" aria-label="정은이">
+  <section class="stage" id="stage" data-i18n-aria="ariaStage" aria-label="정은이">
     <div class="backdrop" id="backdrop"></div>
     <div class="kim" id="kim"></div>
     <p class="bubble" id="bubble">응애!</p>
     <div class="fx-layer" id="fx-layer" aria-hidden="true"></div>
+    <button class="anthem-btn" id="btn-anthem" type="button" aria-pressed="false">♪ 국가</button>
     <div class="ticker">
-      <span class="ticker-tag">속보</span>
-      <div class="ticker-viewport"><p class="ticker-text" id="ticker-text">인민 여러분, 오늘 새벽 백두산 정기를 받은 아기가 태어났습니다.</p></div>
+      <span class="ticker-tag" data-i18n="breaking">속보</span>
+      <div class="ticker-viewport"><p class="ticker-text" id="ticker-text">인민 여러분, 백두산 정기를 받은 아기가 태어났습니다!</p></div>
     </div>
   </section>
 
-  <section class="stats" id="stats" aria-label="상태 지표"></section>
+  <section class="stats" id="stats" data-i18n-aria="ariaStats" aria-label="상태 지표"></section>
 
-  <section class="actions" aria-label="오늘의 일정">
+  <section class="actions" data-i18n-aria="ariaActions" aria-label="오늘의 일정">
     <div class="section-head">
-      <h2>오늘의 일정</h2>
-      <p>일정 하나를 고르면 하루가 지나갑니다 · 숫자키 1–8</p>
+      <h2 data-i18n="scheduleTitle">오늘의 일정</h2>
+      <p data-i18n="scheduleHint">일정 하나를 고르면 하루가 지나갑니다 · 숫자키 1–8</p>
     </div>
     <div class="action-grid" id="action-grid"></div>
   </section>
 
-  <section class="news" aria-label="인민 속보">
+  <section class="news" data-i18n-aria="ariaNews" aria-label="인민 속보">
     <div class="section-head">
-      <h2>인민 속보</h2>
+      <h2 data-i18n="newsTitle">인민 속보</h2>
       <span class="onair">ON AIR</span>
     </div>
     <ol class="news-list" id="news-list"></ol>
   </section>
 
-  <footer class="foot">이 게임은 정치 풍자 패러디입니다. 등장하는 사건과 대사는 대부분 지어낸 것이며, 일부 실제 보도를 과장했습니다.</footer>
+  <footer class="foot" data-i18n="footer">이 게임은 정치 풍자 패러디입니다.</footer>
 </main>
+
+<aside class="anthem-dock" id="anthem-dock" hidden>
+  <div class="anthem-bar">
+    <span data-i18n="anthemDock">♪ 북한 국가 「애국가」</span>
+    <button class="anthem-close" id="btn-anthem-close" type="button" data-i18n-aria="anthemStop" aria-label="국가 끄기">✕</button>
+  </div>
+  <div class="anthem-frame"></div>
+</aside>
 
 <div class="modal-backdrop" id="modal" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -82,6 +95,14 @@
 
 <script src="data.js"></script>
 <script src="events.js"></script>
+<script src="i18n.js"></script>
+<script src="lang-en.js"></script>
+<script src="lang-en-events.js"></script>
+<script src="lang-zh.js"></script>
+<script src="lang-zh-events.js"></script>
+<script src="lang-ja.js"></script>
+<script src="lang-ja-events.js"></script>
+<script src="anthem.js"></script>
 <script src="art.js"></script>
 <script src="engine.js"></script>
 <script src="ui.js"></script>

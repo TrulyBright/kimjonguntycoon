@@ -9,6 +9,7 @@ I18N.add('ja', {
     musicLabel: '音楽',
     musicTurnOff: '音楽を止める',
     musicTurnOn: '音楽を流す',
+    githubLink: 'GitHubリポジトリを開く',
     ariaProgress: '進行状況',
     ariaStage: 'ジョンウン',
     ariaStats: 'ステータス',

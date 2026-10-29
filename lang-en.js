@@ -9,6 +9,7 @@ I18N.add('en', {
     musicLabel: 'Music',
     musicTurnOff: 'Turn music off',
     musicTurnOn: 'Turn music on',
+    githubLink: 'Open the GitHub repository',
     ariaProgress: 'Progress',
     ariaStage: 'Jong-un',
     ariaStats: 'Status',

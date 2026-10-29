@@ -9,6 +9,7 @@ I18N.add('zh', {
     musicLabel: '音乐',
     musicTurnOff: '关闭音乐',
     musicTurnOn: '打开音乐',
+    githubLink: '打开 GitHub 仓库',
     ariaProgress: '进度',
     ariaStage: '正恩',
     ariaStats: '状态',

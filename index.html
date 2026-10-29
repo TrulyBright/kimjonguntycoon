@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>김정은 키우기</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sunburst" aria-hidden="true"></div>
+
+<main class="app" id="app">
+  <header class="masthead">
+    <div class="masthead-text">
+      <p class="eyebrow">최고존엄 육성 시뮬레이션</p>
+      <h1>김정은 키우기</h1>
+    </div>
+    <div class="masthead-tools">
+      <button class="tool-btn" id="btn-album" type="button">엔딩 도감</button>
+      <button class="tool-btn" id="btn-restart" type="button">처음부터</button>
+    </div>
+  </header>
+
+  <section class="calendar" aria-label="진행 상황">
+    <div class="calendar-top">
+      <span class="stage-chip" id="stage-chip">아기 정은</span>
+      <span class="day-label"><b id="day-num">1</b>일째 <small>/ 70일</small></span>
+    </div>
+    <div class="day-track" id="day-track"><div class="day-fill" id="day-fill"></div></div>
+    <div class="badges">
+      <span class="badge" id="badge-weight">체중 3.4kg</span>
+      <span class="badge" id="badge-money" hidden>외화 $150</span>
+      <span class="badge badge-quiet" id="badge-age">0살</span>
+    </div>
+  </section>
+
+  <section class="stage" id="stage" aria-label="정은이">
+    <div class="backdrop" id="backdrop"></div>
+    <div class="kim" id="kim"></div>
+    <p class="bubble" id="bubble">응애!</p>
+    <div class="fx-layer" id="fx-layer" aria-hidden="true"></div>
+    <div class="ticker">
+      <span class="ticker-tag">속보</span>
+      <div class="ticker-viewport"><p class="ticker-text" id="ticker-text">인민 여러분, 오늘 새벽 백두산 정기를 받은 아기가 태어났습니다.</p></div>
+    </div>
+  </section>
+
+  <section class="stats" id="stats" aria-label="상태 지표"></section>
+
+  <section class="actions" aria-label="오늘의 일정">
+    <div class="section-head">
+      <h2>오늘의 일정</h2>
+      <p>일정 하나를 고르면 하루가 지나갑니다 · 숫자키 1–8</p>
+    </div>
+    <div class="action-grid" id="action-grid"></div>
+  </section>
+
+  <section class="news" aria-label="인민 속보">
+    <div class="section-head">
+      <h2>인민 속보</h2>
+      <span class="onair">ON AIR</span>
+    </div>
+    <ol class="news-list" id="news-list"></ol>
+  </section>
+
+  <footer class="foot">이 게임은 정치 풍자 패러디입니다. 등장하는 사건과 대사는 대부분 지어낸 것이며, 일부 실제 보도를 과장했습니다.</footer>
+</main>
+
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-art" id="modal-art"></div>
+    <p class="modal-kicker" id="modal-kicker"></p>
+    <h2 id="modal-title"></h2>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="events.js"></script>
+<script src="art.js"></script>
+<script src="engine.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>

@@ -64,8 +64,8 @@ const ENGINE = (() => {
   }
 
   function blockReason(s, a) {
-    if (a.fx.money < 0 && s.money < -a.fx.money) return '외화 부족';
-    if (a.fx.energy < 0 && s.energy < -a.fx.energy) return '체력 부족';
+    if (a.fx.money < 0 && s.money < -a.fx.money) return 'money';
+    if (a.fx.energy < 0 && s.energy < -a.fx.energy) return 'energy';
     return null;
   }
   function actionsFor(s) {
@@ -76,7 +76,8 @@ const ENGINE = (() => {
   function doAction(s, a) {
     const deltas = applyFx(s, a.fx);
     addCounts(s, a.count);
-    log(s, pick(a.news));
+    // 문장 대신 참조를 남겨서 언어를 바꿔도 지난 속보가 함께 번역되게 한다
+    log(s, { k: 'act', st: stage(s).id, id: a.id, i: Math.floor(Math.random() * a.news.length) });
     return deltas;
   }
 
@@ -86,13 +87,13 @@ const ENGINE = (() => {
     applyFx(s, st.decay);
     const reasons = [];
     let loss = 0;
-    if (s.full <= 15) { loss += 10; reasons.push('배고픔'); s.mood = clamp(s.mood - 4, 0, 100); }
-    if (s.energy <= 10) { loss += 7; reasons.push('과로'); }
-    if (s.fat >= 70) { loss += 4; reasons.push('불어난 체중'); }
-    if (s.mood <= 15) { loss += 3; reasons.push('스트레스'); }
+    if (s.full <= 15) { loss += 10; reasons.push('hunger'); s.mood = clamp(s.mood - 4, 0, 100); }
+    if (s.energy <= 10) { loss += 7; reasons.push('overwork'); }
+    if (s.fat >= 70) { loss += 4; reasons.push('weight'); }
+    if (s.mood <= 15) { loss += 3; reasons.push('stress'); }
     if (loss) {
       s.health = clamp(s.health - loss, 0, 100);
-      log(s, `⚠️ ${reasons.join('·')} 때문에 건강이 나빠졌다. (❤️−${loss})`, true);
+      log(s, { k: 'warn', r: reasons, n: loss }, true);
     } else if (s.full >= 40 && s.energy >= 30) {
       s.health = clamp(s.health + 3, 0, 100);
     }
@@ -146,7 +147,7 @@ const ENGINE = (() => {
     const c = ev.choices[idx];
     const deltas = applyFx(s, c.fx);
     addCounts(s, c.count);
-    log(s, `${ev.icon} ${ev.title}: ${c.result}`);
+    log(s, { k: 'ev', id: ev.id, c: idx });
     return deltas;
   }
 
@@ -164,7 +165,6 @@ const ENGINE = (() => {
     if (k === 'sad') return s.mood <= 15 ? 'angry' : 'sad';
     return k;
   }
-  const lineOf = s => pick(LINES[stage(s).id][moodKey(s)]);
 
   // 효과 표기: 아직 안 보이는 지표는 숨긴다
   function fxText(s, fx) {
@@ -174,8 +174,8 @@ const ENGINE = (() => {
     }).map(([k, d]) => (STATS[k] ? STATS[k].icon : EXTRA_ICONS[k]) + (d > 0 ? '+' : '−') + Math.abs(d));
   }
 
-  function log(s, text, warn = false) {
-    s.log.unshift({ day: Math.min(s.day, GAME_DAYS), text, warn });
+  function log(s, entry, warn = false) {
+    s.log.unshift({ day: Math.min(s.day, GAME_DAYS), warn, ...entry });
     if (s.log.length > 30) s.log.length = 30;
   }
 
@@ -200,6 +200,6 @@ const ENGINE = (() => {
   return {
     newState, stage, isUnlocked, visibleStats, ageOf, kgOf, formatKg, incomeOf, applyFx, blockReason, actionsFor,
     doAction, endTurn, failEnding, finalEnding, isFinished, pickEvent, chooseEvent,
-    exprOf, lineOf, fxText, log, save, load, clearSave, seenEndings, markEnding, pick,
+    exprOf, moodKey, fxText, log, REST, save, load, clearSave, seenEndings, markEnding, pick,
   };
 })();

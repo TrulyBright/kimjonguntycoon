@@ -5,6 +5,8 @@
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const toFx = deltas => Object.fromEntries(deltas.map(d => [d.key, d.delta]));
+  // Google Analytics 이벤트. 광고 차단 등으로 gtag가 없으면 조용히 넘어간다.
+  const track = (name, params = {}) => { if (typeof gtag === 'function') gtag('event', name, params); };
 
   let s = null;
   let busy = false;
@@ -219,6 +221,7 @@
       };
     });
     const deltas = E.chooseEvent(s, ev, idx);
+    track('incident_choice', { incident_id: ev.id, choice: idx + 1 });
     renderAll();
     floatChips(deltas);
     const fx = E.fxText(s, toFx(deltas));
@@ -234,6 +237,7 @@
 
   async function showEvolution(prevIdx) {
     const st = E.stage(s);
+    track('stage_up', { stage: st.id, day: s.day });
     await openModal(() => {
       const tx = T.stage(st);
       return {
@@ -269,6 +273,10 @@
     const en = ENDINGS[id];
     if (en.kind !== 'bad') ANTHEM.replay();
     const lived = Math.min(s.day - 1, GAME_DAYS);
+    track('game_end', {
+      ending_id: id, ending_kind: en.kind, day: lived, stage: E.stage(s).id,
+      missiles: s.counts.missiles, summits: s.counts.summits, hoops: s.counts.hoops,
+    });
     const choice = await openModal(() => {
       const seen = E.seenEndings(), tx = T.ending(id);
       const rows = [
@@ -285,6 +293,7 @@
     });
     if (choice === 1) await showAlbum();
     newGame();
+    track('game_start', { mode: 'replay', game_language: T.lang });
   }
 
   // ---------- 진행 ----------
@@ -346,7 +355,11 @@
       kicker: T.ui('restartKicker'), title: T.ui('restartTitle'), body: `<p>${esc(T.ui('restartBody'))}</p>`,
       buttons: [{ label: T.ui('again'), primary: true }, { label: T.ui('cancel') }],
     }), { dismissible: true });
-    if (i === 0) { E.clearSave(); newGame(); }
+    if (i === 0) {
+      E.clearSave();
+      newGame();
+      track('game_start', { mode: 'restart', game_language: T.lang });
+    }
   }
 
   function langRow() {
@@ -365,11 +378,14 @@
         : [{ label: T.ui('start'), primary: true }],
     }));
     if (saved && i === 1) { E.clearSave(); newGame(); }
+    track('game_start', { mode: saved && i === 0 ? 'continue' : 'new', game_language: T.lang });
     ANTHEM.autoStart(); // 시작 버튼을 누른 순간 국가가 울린다
   }
 
   function setLang(id) {
+    const changed = id !== T.lang;
     T.set(id);
+    if (changed) track('language_change', { game_language: T.lang });
     applyStatic();
     renderAll();
     say(currentLine());
@@ -409,7 +425,10 @@
     });
     $('btn-album').addEventListener('click', () => { if (!modal) showAlbum(); });
     $('btn-restart').addEventListener('click', restart);
-    $('btn-music').addEventListener('click', () => ANTHEM.toggle());
+    $('btn-music').addEventListener('click', () => {
+      ANTHEM.toggle();
+      track('music_toggle', { music: ANTHEM.on ? 'on' : 'off' });
+    });
     ANTHEM.onChange(renderMusicButton);
     $('modal-body').addEventListener('click', e => {
       const b = e.target.closest('[data-lang]');
